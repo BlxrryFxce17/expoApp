@@ -58,7 +58,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
                     />
                 </View>
 
-                <AppButton label="Register" onPress={onRegister} style={{ width: '10%', alignSelf: 'center' }} />
+                <AppButton label="Register" onPress={onRegister} style={{ width: '50%', alignSelf: 'center' }} />
             </ScreenContainer>
         </>
     );
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 22,
         fontWeight: '700',
-        marginBottom: 20,
+        marginBottom: 10,
         marginTop: 8,
         alignSelf: 'center',
         color: '#ffffff',
@@ -81,8 +81,7 @@ const styles = StyleSheet.create({
         padding: 18,
         marginBottom: 20,
         borderWidth: 0,
-        alignItems: 'center',
-        maxWidth: 400,
+        width: '90%',
         alignSelf: 'center',    
     },
 });

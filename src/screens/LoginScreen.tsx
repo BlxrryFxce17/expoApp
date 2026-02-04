@@ -74,11 +74,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#020617',
         borderRadius: 20,
         padding: 20,
-        width: '80%',
+        width: '90%',
         alignSelf: 'center',
         marginBottom: 12,
         shadowColor: '#000',
-        borderWidth: 1,
+        borderWidth: 0,
         borderColor: 'rgba(148, 163, 184, 0.35)',
     },
     forgot: {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     registerLink: {
-        marginTop: 18,
+        marginTop: -10,
         alignItems: 'center',
     },
     registerText: {

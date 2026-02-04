@@ -3,12 +3,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import HomeScreen from './src/screens/HomeScreen';
-import LearnMoreScreen from './src/screens/LearnMoreScreen';
 import LoginScreen from './src/screens/LoginScreen';
+import NewsScreen from './src/screens/NewsScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import SettingsScreen from './src/screens/SettingScreen';
 import SplashScreen from './src/screens/SplashScreen';
+import StockPriceScreen from './src/screens/StockPriceScreen';
 
 export type RootStackParamList = {
     Splash: undefined;
@@ -17,7 +18,8 @@ export type RootStackParamList = {
     Home: undefined;
     Profile: undefined;
     Settings: undefined;
-    LearnMore: undefined;
+    StockPrice: undefined;
+    News: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -35,7 +37,8 @@ export default function App() {
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="Profile" component={ProfileScreen} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
-                <Stack.Screen name="LearnMore" component={LearnMoreScreen} />
+                <Stack.Screen name="News" component={NewsScreen} />
+                <Stack.Screen name="StockPrice" component={StockPriceScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
