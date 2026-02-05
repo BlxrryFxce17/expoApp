@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import * as Notifications from 'expo-notifications';
 import React, { useState } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 
@@ -6,14 +7,45 @@ import { RootStackParamList } from '../../App';
 import { AppButton } from '../components/AppButton';
 import { AppHeader } from '../components/AppHeader';
 import { ScreenContainer } from '../components/ScreenContainer';
+import { useToast } from '../components/useToast';
+import { scheduleHourlyJokeNotification } from '../notifications/jokeReminder';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
 const SettingsScreen: React.FC<Props> = ({ navigation }) => {
-    // User-changeable settings (local state for now)
     const [darkMode, setDarkMode] = useState(false);
     const [pushEnabled, setPushEnabled] = useState(true);
     const [emailEnabled, setEmailEnabled] = useState(false);
+    const [jokeNotifEnabled, setJokeNotifEnabled] = useState(false);
+
+    const { showToast, Toast } = useToast();
+
+    const toggleDarkMode = (value: boolean) => {
+        setDarkMode(value);
+        showToast(value ? 'Dark mode enabled' : 'Dark mode disabled');
+    };
+
+    const toggleJokeNotifEnabled = async (value: boolean) => {
+        setJokeNotifEnabled(value);
+
+        if (value) {
+            await scheduleHourlyJokeNotification();
+            showToast('Joke notifications enabled');
+        } else {
+            await Notifications.cancelAllScheduledNotificationsAsync();
+            showToast('Joke notifications disabled');
+        }
+    };
+
+    const togglePushEnabled = (value: boolean) => {
+        setPushEnabled(value);
+        showToast(value ? 'Push notifications enabled' : 'Push notifications disabled');
+    };
+
+    const toggleEmailEnabled = (value: boolean) => {
+        setEmailEnabled(value);
+        showToast(value ? 'Email updates enabled' : 'Email updates disabled');
+    };
 
     const user = {
         name: 'John Doe',
@@ -64,9 +96,24 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
                         </View>
                         <Switch
                             value={darkMode}
-                            onValueChange={setDarkMode}
+                            onValueChange={toggleDarkMode}
                             trackColor={{ false: '#4B5563', true: '#4F46E5' }}
                             thumbColor={darkMode ? '#E5E7EB' : '#F9FAFB'}
+                        />
+                    </View>
+
+                    <View style={styles.row}>
+                        <View style={styles.rowText}>
+                            <Text style={styles.label}>Joke notifications</Text>
+                            <Text style={styles.helper}>
+                                Receive a funny joke every hour
+                            </Text>
+                        </View>
+                        <Switch
+                            value={jokeNotifEnabled}
+                            onValueChange={toggleJokeNotifEnabled}
+                            trackColor={{ false: '#4B5563', true: '#4F46E5' }}
+                            thumbColor={jokeNotifEnabled ? '#E5E7EB' : '#F9FAFB'}
                         />
                     </View>
 
@@ -79,7 +126,7 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
                         </View>
                         <Switch
                             value={pushEnabled}
-                            onValueChange={setPushEnabled}
+                            onValueChange={togglePushEnabled}
                             trackColor={{ false: '#4B5563', true: '#4F46E5' }}
                             thumbColor={pushEnabled ? '#E5E7EB' : '#F9FAFB'}
                         />
@@ -94,7 +141,7 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
                         </View>
                         <Switch
                             value={emailEnabled}
-                            onValueChange={setEmailEnabled}
+                            onValueChange={toggleEmailEnabled}
                             trackColor={{ false: '#4B5563', true: '#4F46E5' }}
                             thumbColor={emailEnabled ? '#E5E7EB' : '#F9FAFB'}
                         />
@@ -116,6 +163,9 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
                     />
                 </View>
             </ScreenContainer>
+
+            {/* Bottom pill toast overlay */}
+            <Toast />
         </>
     );
 };

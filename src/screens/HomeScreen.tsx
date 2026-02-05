@@ -12,7 +12,7 @@ import { RootStackParamList } from '../../App';
 import { AppButton } from '../components/AppButton';
 import { AppHeader } from '../components/AppHeader';
 import { ScreenContainer } from '../components/ScreenContainer';
-
+import { registerForFCMToken } from '../notifications/fcm';
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const menuItems = [
@@ -116,6 +116,20 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
                             />
                         </View>
                     )}
+                />
+
+                <AppButton
+                    label="Get FCM Token"
+                    onPress={async () => {
+                        console.log('🔘 Get FCM Token button pressed');
+                        try {
+                            const token = await registerForFCMToken();
+                            console.log('✅ registerForFCMToken returned:', token);
+                        } catch (e) {
+                            console.log('❌ registerForFCMToken error:', e);
+                            alert('Error: ' + String(e));
+                        }
+                    }}
                 />
 
                 {/* Joke message box */}
